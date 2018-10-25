@@ -68,6 +68,15 @@ namespace Offers.Data
             SaveData();
         }
 
+        public void Remove(int offerId)
+        {
+            CurrentOffers.RemoveAt(offerId);
+
+            UIHandler.ReInitializeLabels(MainForm.m_Instance.m_MainData.PredictedPrice(), MainForm.m_Instance.m_MainData.TotalPrice());
+            UIHandler.ReInitializeButtons();
+            SaveData();
+        }
+
         public static List<string> GetCustomers()
         {
             return MainForm.m_Instance.m_MainData.CustomerList.Keys.ToList();

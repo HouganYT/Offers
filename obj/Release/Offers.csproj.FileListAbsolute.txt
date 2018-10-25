@@ -108,3 +108,4 @@ C:\Users\Hougan\source\repos\Offers\Offers\obj\Release\Offers.csproj.CoreCompile
 C:\Users\Hougan\source\repos\Offers\Offers\obj\Release\Offers.csproj.CopyComplete
 C:\Users\Hougan\source\repos\Offers\Offers\obj\Release\Offers.exe
 C:\Users\Hougan\source\repos\Offers\Offers\obj\Release\Offers.pdb
+C:\Users\Hougan\source\repos\Offers\Offers\obj\Release\Offers.csprojAssemblyReference.cache

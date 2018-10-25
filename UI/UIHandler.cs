@@ -48,6 +48,7 @@ namespace Offers.UI
                 var label1 = new Label();
                 var button3 = new Button();
                 var button1 = new Button();
+                var button2 = new Button();
 
                 groupBox.Location = new System.Drawing.Point(12, 12 + check.B * 120);
                 groupBox.Name = check.A.HeaderName + check.B;
@@ -57,6 +58,7 @@ namespace Offers.UI
                 groupBox.Text = check.A.HeaderName;
 
 
+                groupBox.Controls.Add(button2);
                 groupBox.Controls.Add(button1);
                 groupBox.Controls.Add(label3);
                 groupBox.Controls.Add(button3);
@@ -64,7 +66,7 @@ namespace Offers.UI
                 groupBox.Controls.Add(label1);
 
                 label3.AutoSize = true;
-                label3.Location = new System.Drawing.Point(233, 69);
+                label3.Location = new System.Drawing.Point(180, 69);
                 label3.Name = check.B + "label3";
                 label3.Size = new System.Drawing.Size(97, 13);
                 label3.TabIndex = 2 + check.B * 3;
@@ -92,7 +94,7 @@ namespace Offers.UI
                 // 
                 // button3
                 // 
-                button3.Location = new System.Drawing.Point(0, 84);
+                button3.Location = new System.Drawing.Point(0, 85);
                 button3.Name = check.B + "button3";
                 button3.Size = new System.Drawing.Size(162, 23);
                 button3.TabIndex = 4 + check.B * 3;
@@ -110,7 +112,19 @@ namespace Offers.UI
                 button1.TabIndex = 5 + check.B * 3;
                 button1.Text = "СДЕЛАНО";
                 button1.Click += CloseOffer;
+                button1.Tag = check.B;
                 button1.UseVisualStyleBackColor = true;
+
+
+                button2.Location = new System.Drawing.Point(162, 85);
+                button2.Name = check.B + "button2";
+                button2.Size = new System.Drawing.Size(18, 23);
+                button2.TabIndex = 5 + check.B * 3;
+                button2.BackColor = Color.OrangeRed;
+                button2.Text = "Х";
+                button2.Click += RemoveOffer;
+                button2.Tag = check.B;
+                //button2.UseVisualStyleBackColor = true;
 
                 MainForm.m_Instance.Controls.Add(groupBox);
                 groupBoxes.Add(groupBox);
@@ -130,6 +144,14 @@ namespace Offers.UI
             if (sender is Button)
             {
                 MainForm.m_Instance.m_MainData.SetPay(Convert.ToInt32((sender as Button).Tag));
+            }
+        }
+
+        public static void RemoveOffer(object sender, EventArgs e)
+        {
+            if (sender is Button)
+            {
+                MainForm.m_Instance.m_MainData.Remove(Convert.ToInt32((sender as Button).Tag));
             }
         }
     }
