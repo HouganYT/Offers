@@ -16,7 +16,7 @@ namespace Offers.Data
         public Dictionary<string, int> CustomerList = new Dictionary<string, int>();
 
         public int PredictedPrice() => CurrentOffers.Where(p => !p.PostPay).Sum(p => p.Price / 2);
-        public int TotalPrice() => PreviousOffers.Sum(p => p.Price) + CurrentOffers.Where(p => p.PostPay).Sum(p => p.Price);
+        public int TotalPrice() => PreviousOffers.Sum(p => p.Price) + CurrentOffers.Where(p => !p.PostPay).Sum(p => p.Price/2) + CurrentOffers.Where(p => p.PostPay).Sum(p => p.Price);
         
         public void SaveData()
         {
@@ -61,7 +61,10 @@ namespace Offers.Data
 
         public void SetPay(int offerId)
         {
-            CurrentOffers[offerId].PostPay = true;
+            if (CurrentOffers[offerId].PostPay == true)
+                CurrentOffers[offerId].PostPay = false;
+            else
+                CurrentOffers[offerId].PostPay = true;
 
             UIHandler.ReInitializeLabels(MainForm.m_Instance.m_MainData.PredictedPrice(), MainForm.m_Instance.m_MainData.TotalPrice());
             UIHandler.ReInitializeButtons();

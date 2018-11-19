@@ -11,19 +11,31 @@ namespace Offers.UI
 {
     public static class UIHandler
     {
+        public static int currentPage = 0;
         public static List<GroupBox> groupBoxes = new List<GroupBox>();
 
         public static void ReInitializeLabels(int predicted, int total)
         {
-            MainForm.m_Instance.Potential.Text = $"Потенциальная прибыль: {predicted} RUB";
-            MainForm.m_Instance.TotalPrice.Text = $"Общая прибыль: {total} RUB";
+            MainForm.m_Instance.Potential.Text = $"Ожидаемая прибыль: {predicted} RUB";
+            MainForm.m_Instance.TotalPrice.Text = $"Полученная прибыль: {total} RUB";
             MainForm.m_Instance.label1.Text = $"Ещё заказов: {Math.Max(0, MainForm.m_Instance.m_MainData.CurrentOffers.Count - 6)} шт";
 
             Console.WriteLine("Текст обновлён");
         }
 
-        public static void ReInitializeButtons()
+        public static void ReInitializeButtons(int page = 0)
         {
+            if (page == 1 && MainForm.m_Instance.m_MainData.CurrentOffers.Count > (currentPage + 1) * 6)
+            {
+                currentPage++;
+                Console.WriteLine("Переключили страницу вперед");
+            }
+            else if (page == -1)
+            {
+                currentPage--;
+                Console.WriteLine("Переключили страницу назад");
+            }
+
             foreach (var check in groupBoxes)
                 check.Hide();
 
@@ -38,7 +50,7 @@ namespace Offers.UI
                 MainForm.m_Instance.label2.Hide();
             }
 
-            foreach (var check in MainForm.m_Instance.m_MainData.CurrentOffers.Select((i,t) => new { A = i, B = t }).Take(6))
+            foreach (var check in MainForm.m_Instance.m_MainData.CurrentOffers.Select((i,t) => new { A = i, B = t }).Skip(6*currentPage).Take(6))
             {
                 Console.WriteLine($"Отрисовываем: {check.A.HeaderName}");
                 var groupBox = new GroupBox();
@@ -50,7 +62,7 @@ namespace Offers.UI
                 var button1 = new Button();
                 var button2 = new Button();
 
-                groupBox.Location = new System.Drawing.Point(12, 12 + check.B * 120);
+                groupBox.Location = new System.Drawing.Point(12, 12 + check.B * 120 - currentPage * 6 * 120);
                 groupBox.Name = check.A.HeaderName + check.B;
                 groupBox.Size = new System.Drawing.Size(339, 108);
                 groupBox.TabIndex = 3 + check.B;
